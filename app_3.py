@@ -29,8 +29,8 @@ st.title("🧪 Blending 2 รูปภาพแมว")
 # แสดงรูปภาพต้นฉบับ (หลัง resize)
 st.subheader("🔍 รูปต้นฉบับที่ใช้ Blending")
 col1, col2 = st.columns(2)
-col1.image(img1_resized, caption="รูปที่ 1", use_column_width=True)
-col2.image(img2_resized, caption="รูปที่ 2", use_column_width=True)
+col1.image(img1_resized, caption="รูปที่ 1", use_container_width =True)
+col2.image(img2_resized, caption="รูปที่ 2", use_container_width =True)
 
 # Slider สำหรับปรับระดับการ Blending
 st.subheader("🎛️ ปรับระดับการ Blending")
@@ -41,4 +41,4 @@ blended_image = Image.blend(img1_resized, img2_resized, alpha=blend_ratio)
 
 # แสดงผลภาพที่ผสมแล้ว
 st.subheader("🖼️ ภาพที่ได้จากการ Blending")
-st.image(blended_image, caption=f"Blend Ratio: {blend_ratio:.2f}", use_column_width=True)
+st.image(blended_image, caption=f"Blend Ratio: {blend_ratio:.2f}", use_container_width =True)
