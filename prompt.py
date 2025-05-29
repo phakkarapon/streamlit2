@@ -26,7 +26,7 @@ for i, col in enumerate(cols):
     with col:
         if st.button(f"เลือกภาพที่ {i+1}"):
             st.session_state.selected_image = i
-        st.image(images[i], use_column_width=True, caption=f"ภาพที่ {i+1}")
+        st.image(images[i], use_container_width =True, caption=f"ภาพที่ {i+1}")
 
 # ตรวจสอบว่าผู้ใช้เลือกภาพใด (ค่าเริ่มต้น: ภาพแรก)
 selected_index = st.session_state.get("selected_image", 0)
