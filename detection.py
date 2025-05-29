@@ -71,7 +71,7 @@ elif option == "อัปโหลดจากเครื่อง":
 
 # ถ้ามีภาพให้วิเคราะห์
 if 'image' in locals():
-    st.image(image, caption="ภาพต้นฉบับ", use_column_width=True)
+    st.image(image, caption="ภาพต้นฉบับ", use_container_width =True)
 
     threshold = st.slider("Threshold ความมั่นใจ", 0.0, 1.0, 0.5, step=0.05)
     boxes, labels, scores = detect_objects(image, model, threshold)
