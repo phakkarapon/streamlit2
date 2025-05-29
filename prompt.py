@@ -17,7 +17,7 @@ st.title("โปรแกรม Flip รูปภาพจาก URL")
 
 # แสดงภาพต้นฉบับ
 st.subheader("ภาพต้นฉบับ")
-st.image(image, use_column_width=True)
+st.image(image, use_container_width = True)
 
 # ตัวเลือกการ flip
 flip_option = st.radio("เลือกการ Flip รูปภาพ:", ("ไม่ Flip", "Flip แนวนอน", "Flip แนวตั้ง"))
