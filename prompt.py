@@ -6,30 +6,31 @@ from io import BytesIO
 # ฟังก์ชันโหลดภาพจาก URL
 def load_image_from_url(url):
     response = requests.get(url)
-    img = Image.open(BytesIO(response.content))
-    return img
+    return Image.open(BytesIO(response.content))
 
-# โหลดภาพ
-url = "https://cdn.britannica.com/39/226539-050-D21D7721/Portrait-of-a-cat-with-whiskers-visible.jpg"
-image = load_image_from_url(url)
+# URL รูปภาพ
+image_urls = [
+    "https://cdn.britannica.com/39/226539-050-D21D7721/Portrait-of-a-cat-with-whiskers-visible.jpg",
+    "https://upload.wikimedia.org/wikipedia/commons/3/3a/Cat03.jpg",
+    "https://cdn.pixabay.com/photo/2017/11/09/21/41/cat-2934720_1280.jpg"
+]
 
-st.title("โปรแกรม Flip รูปภาพจาก URL")
+# โหลดภาพทั้งหมด
+images = [load_image_from_url(url) for url in image_urls]
 
-# แสดงภาพต้นฉบับ
-st.subheader("ภาพต้นฉบับ")
-st.image(image, use_container_width = True)
+st.title("เลือกภาพแมวเพื่อดูขนาดใหญ่")
 
-# ตัวเลือกการ flip
-flip_option = st.radio("เลือกการ Flip รูปภาพ:", ("ไม่ Flip", "Flip แนวนอน", "Flip แนวตั้ง"))
+# สร้างคอลัมน์สำหรับรูปภาพขนาดเล็ก
+cols = st.columns(3)
 
-# ประมวลผลภาพตามที่เลือก
-if flip_option == "Flip แนวนอน":
-    flipped_image = image.transpose(Image.FLIP_LEFT_RIGHT)
-elif flip_option == "Flip แนวตั้ง":
-    flipped_image = image.transpose(Image.FLIP_TOP_BOTTOM)
-else:
-    flipped_image = image
+# สร้างปุ่มคลิกแต่ละรูป
+for i, col in enumerate(cols):
+    with col:
+        if st.button(f"เลือกภาพที่ {i+1}"):
+            st.session_state.selected_image = i
+        st.image(images[i], use_container_width =True, caption=f"ภาพที่ {i+1}")
 
-# แสดงผลภาพที่ Flip แล้ว
-st.subheader("ภาพที่ผ่านการ Flip")
-st.image(flipped_image, use_column_width=True)
+# ตรวจสอบว่าผู้ใช้เลือกภาพใด
+selected_index = st.session_state.get("selected_image", 0)
+st.subheader(f"ภาพที่เลือก (ภาพที่ {selected_index+1})")
+st.image(images[selected_index], caption=f"ภาพที่ {selected_index+1}", use_container_width =True)
