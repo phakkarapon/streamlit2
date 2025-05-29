@@ -18,37 +18,37 @@ image_urls = [
 # โหลดภาพทั้งหมด
 images = [load_image_from_url(url) for url in image_urls]
 
-st.title("เลือกภาพแมวเพื่อดูขนาดใหญ่ และปรับขนาดภาพ")
+st.title("เลือกภาพแมว | ปรับขนาด | แสดงขนาดแกน X/Y")
 
-# สร้างคอลัมน์สำหรับรูปภาพขนาดเล็ก
+# แสดง thumbnail ของทั้ง 3 รูป
 cols = st.columns(3)
-
-# สร้างปุ่มคลิกแต่ละรูป
 for i, col in enumerate(cols):
     with col:
         if st.button(f"เลือกภาพที่ {i+1}"):
             st.session_state.selected_image = i
         st.image(images[i], use_column_width=True, caption=f"ภาพที่ {i+1}")
 
-# ตรวจสอบว่าผู้ใช้เลือกภาพใด (ค่าเริ่มต้นคือ 0)
+# ตรวจสอบว่าผู้ใช้เลือกภาพใด (ค่าเริ่มต้น: ภาพแรก)
 selected_index = st.session_state.get("selected_image", 0)
 selected_image = images[selected_index]
 
 st.subheader(f"ภาพที่เลือก (ภาพที่ {selected_index+1})")
 
-# เพิ่มแถบเลื่อนสำหรับปรับขนาด (0.0 ถึง 1.0)
-scale = st.slider("ปรับขนาดภาพ", 0.0, 1.0, 1.0, step=0.01)
+# Slider สำหรับปรับขนาดภาพ (0.0 - 1.0)
+scale = st.slider("ปรับขนาดภาพ (0 = เล็กสุด, 1 = ใหญ่สุด)", 0.0, 1.0, 1.0, step=0.01)
 
-# ขนาดขั้นต่ำ: 100px หรือเล็กกว่า ถ้า scale ต่ำ
-min_size = 100
-
-# ปรับขนาดภาพตาม scale
+# คำนวณขนาดภาพใหม่
 if scale == 0.0:
-    resized_image = selected_image.resize((min_size, int(min_size * selected_image.height / selected_image.width)))
+    resized_width = 100
 else:
-    width = int(selected_image.width * scale)
-    height = int(selected_image.height * scale)
-    resized_image = selected_image.resize((width, height))
+    resized_width = int(selected_image.width * scale)
+resized_height = int(resized_width * selected_image.height / selected_image.width)
+resized_image = selected_image.resize((resized_width, resized_height))
 
 # แสดงภาพที่ resize แล้ว
 st.image(resized_image, caption=f"ภาพที่ {selected_index+1} (ขนาด: {scale:.2f})")
+
+# แสดงขนาดแกน X/Y
+st.write(f"📏 ขนาดภาพปัจจุบัน:")
+st.markdown(f"- แกน **X (กว้าง)**: `{resized_width}px`")
+st.markdown(f"- แกน **Y (สูง)**: `{resized_height}px`")
