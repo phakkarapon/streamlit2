@@ -18,7 +18,7 @@ image_urls = [
 # โหลดภาพทั้งหมด
 images = [load_image_from_url(url) for url in image_urls]
 
-st.title("เลือกภาพแมวเพื่อดูขนาดใหญ่")
+st.title("Select picture")
 
 # สร้างคอลัมน์สำหรับรูปภาพขนาดเล็ก
 cols = st.columns(3)
